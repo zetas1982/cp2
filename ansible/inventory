@@ -1,0 +1,2 @@
+[Web]
+51.105.40.227 ansible_ssh_user='rootuser'

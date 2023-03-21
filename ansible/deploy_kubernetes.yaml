@@ -1,0 +1,9 @@
+---
+- name: 'Deploy aplication test'
+  hosts: localhost
+  tasks:
+    - name: install postgresql
+      shell: "{{ item }}"
+      with_items:
+             - cd /root/cp2
+             - helm  install postgresql postgresql/ -f postgresql/values.yaml -n test

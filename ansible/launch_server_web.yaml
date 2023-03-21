@@ -1,0 +1,34 @@
+---
+
+- name: Desplegar Http
+  hosts: all
+  gather_facts: false
+  tasks:
+        - name: podman install
+          become: yes
+          ansible.builtin.package:
+                        name: podman
+                        state: latest
+        - name: Login to default registry and create ${XDG_RUNTIME_DIR}/containers/auth.json
+          become: yes
+          containers.podman.podman_login:
+                  username: acrUNIR22
+                  password: '1IDfsUb2XVoNpYwYcCdOvC8EGpiLsVok6w6MYX/84++ACRBKuWhF'
+                  registry: acrunir22.azurecr.io
+        - name: pull image
+          become: yes
+          containers.podman.podman_image:
+                name: httpd
+                pull: true
+                tag: latest
+        - name: run httpd_container
+          become: yes
+          containers.podman.podman_container:
+                name: webserver
+                image: httpd
+                state: started
+                detach: true
+                expose:
+                        - 80
+                ports:
+                        8080:80
